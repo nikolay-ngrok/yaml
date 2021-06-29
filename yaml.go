@@ -139,7 +139,15 @@ func (dec *Decoder) Decode(v interface{}) (err error) {
 //
 // See the documentation for Unmarshal for details about the
 // conversion of YAML into a Go value.
-func (n *Node) Decode(v interface{}, knownFields bool) (err error) {
+func (n *Node) Decode(v interface{}) (err error) {
+	return n.decode(v, false)
+}
+
+func (n *Node) DecodeStrict(v interface{}) (err error) {
+	return n.decode(v, true)
+}
+
+func (n *Node) decode(v interface{}, knownFields bool) (err error) {
 	d := newDecoder()
 	d.knownFields = knownFields
 	defer handleErr(&err)
